@@ -1,0 +1,19 @@
+# robots.txt for GoTour Website
+
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /backend/
+
+# Allow CSS and JS
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+
+# Sitemap
+Sitemap: https://gotour.vn/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 10

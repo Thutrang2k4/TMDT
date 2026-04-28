@@ -1,0 +1,166 @@
+/* ======= CONTACT HEADER ======= */
+
+.contact-container{
+  padding: 0 3rem;
+}
+.contact-header{
+  padding: 3rem;
+  
+}
+.contact-c{
+  display: flex;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.contact-form {
+  flex: 1 1 45%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-submit {
+  background: #ff6f00;
+  color: #fff;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.branch-column {
+  flex: 1 1 45%;
+}
+
+.branch-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-btn {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.filter-btn.active {
+  background: #ff6f00;
+  color: #fff;
+}
+
+.branch-card {
+  background: #fff;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+@media (max-width: 992px) {
+  .contact-container {
+    padding: 0 1.5rem;
+  }
+
+  .contact-header {
+    padding: 2rem 1rem;
+  }
+
+  .contact-c {
+    display: block;
+  }
+
+  .contact-form,
+  .branch-column {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 0 1rem;
+  }
+
+  .contact-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .contact-header p {
+    font-size: 14px;
+  }
+
+  .contact-form {
+    padding: 15px;
+  }
+
+  input, select, textarea {
+    padding: 9px;
+    font-size: 14px;
+  }
+
+  .branch-filter {
+    overflow-x: auto;
+    display: flex;
+    white-space: nowrap;
+    scrollbar-width: none; /* ẩn scrollbar Firefox */
+  }
+  .branch-filter::-webkit-scrollbar {
+    display: none; /* ẩn scrollbar Chrome */
+  }
+
+  .filter-btn {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .branch-card {
+    padding: 12px;
+    margin-top: 12px;
+  }
+}
+
+/* Mobile nhỏ (≤ 480px) */
+@media (max-width: 480px) {
+  .contact-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .contact-container {
+    padding: 0 .5rem;
+  }
+
+  .contact-form {
+    padding: 12px;
+  }
+
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .branch-card p {
+    font-size: 14px;
+  }
+}

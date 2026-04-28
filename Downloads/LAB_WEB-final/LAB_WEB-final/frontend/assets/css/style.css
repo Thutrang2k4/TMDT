@@ -1,0 +1,416 @@
+/* Import Google Fonts - Inter (font hiện đại, dễ đọc) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: white;              /* nền chính xanh ngọc đậm */
+  --panel: #102825;           /* nền panel, header */
+  --muted: #9acfc3;           /* chữ phụ nhẹ */
+  --accent: orange;          /* điểm nhấn xanh ngọc tươi */
+  --white: black;           /* chữ trắng ngà */
+  --glass: rgba(255, 255, 255, 0.05);
+}
+
+/* Reset + Layout toàn trang */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  line-height: 1.6;
+}
+
+/* Container chính */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  min-height: 80%;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex: 1; /* giúp footer nằm cuối trang */
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
+/* Header */
+.site-header {
+  background: linear-gradient(180deg, rgba(54, 224, 184, 0.08), rgba(0, 0, 0, 0.05));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  background: #081b18;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+}
+
+.logo h1 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+  .logo h1 {
+    font-size: 0.95rem;
+  }
+  
+  .logo img {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 0.85rem;
+  }
+  
+  .logo img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Nav */
+.nav-bar ul {
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-bar li {
+  position: relative;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-bar a:hover {
+  background: rgba(54, 224, 184, 0.15);
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .nav-bar a {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-bar a {
+    padding: 5px 6px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #042f27;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #4ff2c6;
+}
+
+/* Footer */
+.site-footer {
+  background: #081b18;
+  padding: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  color: var(--muted);
+  z-index: 2; /* để footer nằm trên ảnh */
+}
+
+/* Product detail */
+.product-wrap {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.product-gallery {
+  flex: 1;
+}
+
+.product-info {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .product-wrap {
+    flex-direction: column;
+  }
+}
+
+/* User Dropdown Menu */
+.user-dropdown {
+  position: relative;
+}
+
+.user-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: white !important;
+  white-space: nowrap;
+}
+
+.user-menu-toggle:hover {
+  background: rgba(54, 224, 184, 0.15) !important;
+  color: var(--accent) !important;
+}
+
+.user-menu-toggle i.bi-person-circle {
+  font-size: 1.2em;
+}
+
+.user-menu-toggle i.bi-chevron-down {
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+
+.user-dropdown:hover .user-menu-toggle i.bi-chevron-down {
+  transform: rotate(180deg);
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -30px;
+  min-width: 450px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 1000;
+  overflow: hidden;
+  padding: 16px;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.user-dropdown:hover .user-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-dropdown-menu li {
+  list-style: none;
+}
+
+.user-dropdown-menu li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 8px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.88em;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  min-height: 90px;
+  min-width: 130px;
+}
+
+.user-dropdown-menu li a:hover {
+  background: #f0f7ff;
+  transform: translateY(-2px);
+}
+
+.user-dropdown-menu li a i {
+  font-size: 1.8em;
+  width: 100%;
+  text-align: center;
+  color: #495057;
+  display: block;
+}
+
+.user-dropdown-menu li a:hover i {
+  color: var(--accent);
+}
+
+.user-dropdown-menu li a.text-danger {
+  color: #dc3545;
+}
+
+.user-dropdown-menu li a.text-danger:hover {
+  background: #fff5f5;
+}
+
+.user-dropdown-menu li a.text-danger i {
+  color: #dc3545;
+}
+
+.dropdown-divider {
+  display: none !important;
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .nav-bar ul {
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .user-dropdown {
+    width: 100%;
+  }
+  
+  .user-menu-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .user-dropdown-menu {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    max-width: 340px;
+    right: 0;
+    left: 0;
+    gap: 10px;
+    padding: 12px;
+  }
+  
+  .user-dropdown-menu li a {
+    padding: 16px 8px;
+    font-size: 0.85em;
+    min-height: 85px;
+  }
+  
+  .user-dropdown-menu li a i {
+    font-size: 1.7em;
+  }
+  
+  .user-menu-toggle {
+    padding: 6px 10px;
+    font-size: 0.85em;
+  }
+  
+  .user-menu-toggle i.bi-person-circle {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-bar ul {
+    gap: 6px;
+    font-size: 0.9em;
+  }
+  
+  .user-dropdown-menu {
+    width: 100%;
+    max-width: 320px;
+    right: 0;
+    left: 0;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .user-dropdown-menu li a {
+    padding: 14px 6px;
+    font-size: 0.8em;
+    min-height: 75px;
+    gap: 6px;
+  }
+  
+  .user-dropdown-menu li a i {
+    font-size: 1.5em;
+  }
+  
+  .user-menu-toggle {
+    padding: 5px 8px;
+    font-size: 0.8em;
+  }
+}
+
+.text-primary {
+    color: var(--accent) !important; /* Cam ND Travel */
+}

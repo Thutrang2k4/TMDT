@@ -1,0 +1,89 @@
+/* Custom styles for Tabler Admin */
+:root {
+  --tblr-primary: #206bc4;
+  --tblr-secondary: #656d77;
+}
+
+/* Fix Tabler layout issues */
+.page {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.navbar-vertical {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15rem;
+  z-index: 1030;
+}
+
+.page-wrapper {
+  flex: 1;
+  margin-left: 15rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-wrapper > .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background: white;
+  border-bottom: 1px solid rgba(98, 105, 118, 0.16);
+}
+
+/* Ensure proper spacing */
+.page-header {
+  margin-top: 0;
+}
+
+.page-body {
+  flex: 1;
+  margin-top: 0;
+  padding: 1.5rem 0;
+}
+
+.container-fluid {
+  padding-left: 1rem !important;
+  gap: 8px;
+}
+
+/* Navbar brand */
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding-top: 1.8rem !important;
+  color: yellow;
+}
+.navbar-nav {
+    padding-left: 1 0.5rem;
+    font-size: 1rem;
+}
+
+.navbar-collapse {
+    gap: 10px;
+}
+
+/* Avatar fix */
+.avatar i {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .navbar-vertical {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    bottom: auto;
+  }
+  
+  .page-wrapper {
+    margin-left: 0;
+    margin-top: 3.5rem;
+  }
+}
