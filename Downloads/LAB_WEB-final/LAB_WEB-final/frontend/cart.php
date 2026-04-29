@@ -235,7 +235,8 @@ if (isset($conn)) {
 <body>
     <div id="header"></div>
     
-    <main class="container cart-container">
+    <main>
+        <div class="container cart-container">
         <div class="cart-header">
             <h1> Giỏ hàng của bạn</h1>
         </div>
@@ -267,6 +268,7 @@ if (isset($conn)) {
                         <th>Số lượng</th>
                         <th>Thành tiền</th>
                         <th>Hành động</th>
+                        <th>So sánh</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -280,7 +282,7 @@ if (isset($conn)) {
                         <td class="item-price"><?php echo number_format($item['price'], 0, ',', '.'); ?> VNĐ</td>
                         <td>
                             <div class="quantity-control">
-                                <input type="number" value="<?php echo $item['quantity']; ?>" min="1" readonly>
+                                <input type="number" value="<?php echo $item['quantity']; ?>" min="1">
                             </div>
                         </td>
                         <td class="item-subtotal"><?php echo number_format($item['total_price'], 0, ',', '.'); ?> VNĐ</td>
@@ -289,6 +291,10 @@ if (isset($conn)) {
                                 <input type="hidden" name="order_id" value="<?php echo $item['id']; ?>">
                                 <button type="submit" class="btn-remove" onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">Xóa</button>
                             </form>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="compare-checkbox"
+                                value="<?php echo $item['tour_id']; ?>">
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -300,20 +306,97 @@ if (isset($conn)) {
                 <div class="total-amount"><?php echo number_format($total_amount, 0, ',', '.'); ?> VNĐ</div>
                 <div class="cart-actions">
                     <a href="products.php" class="btn btn-back">← Tiếp tục mua</a>
+                    <button type="button" class="btn btn-primary" onclick="goCompare()">
+                        So sánh tour
+                    </button>
                     <a href="checkout.php" class="btn btn-checkout">Thanh toán →</a>
                 </div>
             </div>
-
+            <div id="compareResult" style="margin-top:30px;"></div>
         <?php endif; ?>
+        </div>
     </main>
     
     <div id="footer"></div>
     
     <script>
-        fetch("partials/header.php").then(r=>r.text()).then(t=>document.getElementById("header").innerHTML=t);
-        fetch("partials/footer.php").then(r=>r.text()).then(t=>document.getElementById("footer").innerHTML=t);
+    function goCompare() {
+        let selected = [];
+
+        document.querySelectorAll('.compare-checkbox:checked').forEach(cb => {
+            selected.push(cb.value);
+        });
+
+        if (selected.length < 2) {
+            alert("Bạn cần chọn ít nhất 2 tour để so sánh!");
+            return;
+        }
+
+        fetch("../backend/actions/tour/compare.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ tour_ids: selected })
+        })
+        .then(res => res.json())
+        .then(data => {
+            renderCompareTable(data);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Lỗi khi so sánh tour!");
+        });
+    }
+
+    function renderCompareTable(tours) {
+        let html = `
+        <h3>So sánh tour</h3>
+        <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tiêu chí</th>`;
+
+        tours.forEach(t => {
+            html += `<th>${t.title}</th>`;
+        });
+
+        html += `</tr></thead><tbody>`;
+
+        const rows = [
+            ["Thời gian", "duration_days"],
+            ["Giá", "price"],
+            ["Khởi hành", "day_start"],
+            ["Phương tiện", "vehicle"],
+            ["Nơi khởi hành", "place_start"],
+            ["Khách sạn", "hotel"],
+            ["Nhà cung cấp", "host"],
+            ["Mô tả ngắn", "short_description"]
+        ];
+
+        rows.forEach(row => {
+            html += `<tr><td><b>${row[0]}</b></td>`;
+            tours.forEach(t => {
+                let value = t[row[1]] ?? "-";
+
+                if (row[1] === "price") {
+                    value = Number(value).toLocaleString('vi-VN') + " VNĐ";
+                }
+
+                html += `<td>${value}</td>`;
+            });
+            html += `</tr>`;
+        });
+
+        html += `</tbody></table></div>`;
+
+        document.getElementById("compareResult").innerHTML = html;
+    }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/index.js"></script>
     <script src="logo.js"></script>
 </body>
 </html>

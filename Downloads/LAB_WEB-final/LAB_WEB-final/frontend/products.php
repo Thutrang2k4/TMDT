@@ -406,7 +406,7 @@ if (isset($conn)) {
                             <div class="tour-card-actions">
                                 <a href="product-detail.php?slug=<?php echo htmlspecialchars($tour['slug']); ?>" 
                                    class="btn-detail">Chi tiết</a>
-                                <form method="POST" action="../backend/actions/tour/add_to_cart.php" style="flex: 1;">
+                                <form class="add-to-cart-form" method="POST" action="../backend/actions/tour/add_to_cart.php" style="flex: 1;">
                                     <input type="hidden" name="tour_id" value="<?php echo $tour['id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn-cart" <?php echo $tour['status'] !== 'active' ? 'disabled' : ''; ?>>
@@ -451,8 +451,27 @@ if (isset($conn)) {
     
     <div id="footer"></div>
     <script>
-        fetch("partials/header.php").then(r=>r.text()).then(t=>document.getElementById("header").innerHTML=t);
-        fetch("partials/footer.php").then(r=>r.text()).then(t=>document.getElementById("footer").innerHTML=t);
+        document.querySelectorAll(".add-to-cart-form").forEach(form => {
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch("../backend/actions/tour/add_to_cart.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("Đã thêm vào giỏ hàng!");
+            } else {
+                alert("Lỗi khi thêm giỏ!");
+            }
+        })
+        .catch(err => console.error(err));
+    });
+});
     </script>
     <script src="assets/js/main.js"></script>
     <script src="logo.js"></script>

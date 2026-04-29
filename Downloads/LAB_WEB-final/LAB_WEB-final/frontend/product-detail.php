@@ -300,6 +300,96 @@ if (!$tour) {
         }
         .comment-box { background-color: #f8f9fa; border-radius: 12px; padding: 15px; width: 100%; }
         .news-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
+        .product-meta-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .product-meta-table th,
+        .product-meta-table td {
+            padding: 10px;
+        
+            text-align: left;
+        }
+
+        .product-meta-table th {
+            
+            width: 30%;
+        }
+        .tour-tabs {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* thanh tab */
+.tab-header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 5px solid #2e7d32; /* xanh giống hình */
+    margin-bottom: 15px;
+}
+
+/* nút tab */
+.tab-item {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 8px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+/* hover */
+.tab-item:hover {
+    border: 1px solid #000;
+}
+
+/* tab đang chọn */
+.tab-item.active {
+    border: 1px solid #000;
+    border-bottom: 5px solid #fff; /* tạo hiệu ứng nổi lên */
+    font-weight: bold;
+    background: #fff;
+}
+
+/* content tab */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* note box */
+.note-box {
+    padding: 10px;
+    line-height: 1.6;
+}
+
+/* highlight thời gian */
+.time {
+    color: #e67e22;
+    font-weight: bold;
+}
+.note-title {
+    font-weight: bold;
+    color: #d35400;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.note-list {
+    padding-left: 20px;
+    margin: 5px 0 15px;
+}
+
+.note-list li {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
     </style>
 </head>
 <body>
@@ -337,22 +427,37 @@ if (!$tour) {
                 <h1><?php echo htmlspecialchars($tour['title']); ?></h1>
                 
                 <div class="product-meta">
-                    <div class="product-meta-item">
-                        <span class="product-meta-label">Thời gian</span>
-                        <span class="product-meta-value"><?php echo htmlspecialchars($tour['duration_days']); ?> ngày</span>
-                    </div>
-                    <div class="product-meta-item">
-                        <span class="product-meta-label">Trạng thái</span>
-                        <span class="product-meta-value"><?php echo $tour['status'] === 'active' ? 'Còn hàng' : 'Hết hàng'; ?></span>
-                    </div>
-                    <div class="product-meta-item">
-                        <span class="product-meta-label">Nhà cung cấp</span>
-                        <span class="product-meta-value"><?php echo htmlspecialchars($tour['vehicle']); ?></span>
-                    </div>
-                    <div class="product-meta-item">
-                        <span class="product-meta-label">Nơi khởi hành</span>
-                        <span class="product-meta-value"><?php echo htmlspecialchars($tour['place_start']); ?></span>
-                    </div>
+                    <table class="product-meta-table">
+                        <tr>
+                            <th>Thời gian</th>
+                            <td><?php echo htmlspecialchars($tour['duration_days']); ?> ngày</td>
+                        </tr>
+                        <tr>
+                            <th>Trạng thái</th>
+                            <td><?php echo $tour['status'] === 'active' ? 'Còn hàng' : 'Hết hàng'; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Khởi hành</th>
+                            <td><?php echo htmlspecialchars($tour['day_start']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Phương tiện</th>
+                            <td><?php echo htmlspecialchars($tour['vehicle']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nơi khởi hành</th>
+                            <td><?php echo htmlspecialchars($tour['place_start']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Khách sạn</th>
+                            <td><?php echo htmlspecialchars($tour['hotel']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nhà cung cấp</th>
+                            <td><?php echo htmlspecialchars($tour['host']); ?></td>
+                        </tr>
+
+                    </table>
                 </div>
                 
                 <div class="product-price">
@@ -363,7 +468,7 @@ if (!$tour) {
                     <?php echo htmlspecialchars($tour['short_description']); ?>
                 </div>
                 
-                <form method="POST" action="../backend/actions/tour/add_to_cart.php">
+                <form class="add-to-cart-form" method="POST" action="../backend/actions/tour/add_to_cart.php" style="flex: 1;">
                     <div class="product-actions">
                         <div class="quantity-input">
                             <button type="button" onclick="decreaseQuantity()">−</button>
@@ -371,7 +476,8 @@ if (!$tour) {
                             <button type="button" onclick="increaseQuantity()">+</button>
                         </div>
                         <input type="hidden" name="tour_id" value="<?php echo $tour['id']; ?>">
-                        <button type="submit" class="btn-add-cart">Thêm vào Giỏ hàng</button>
+                        
+                        <button type="submit" class="btn-add-cart" >Thêm vào Giỏ hàng</button>
                     </div>
                 </form>
                 
@@ -379,44 +485,91 @@ if (!$tour) {
             </div>
         </div>
         <!-- Phần mô tả dài -->
-        <didv class="long-description">
-<?php
-$content = htmlspecialchars($tour['long_description']);
+ <!-- TAB BUTTONS -->
+    <div class="tab-header">
+        <button class="tab-item active" onclick="switchTab('detail', this)">
+            CHI TIẾT TOUR
+        </button>
 
-$days = preg_split('/(NGÀY\s\d+\s\|[^\n]+)/u', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+        <button class="tab-item" onclick="switchTab('note', this)">
+            LƯU Ý
+        </button>
+    </div>
+
+    <!-- TAB CONTENT: CHI TIẾT TOUR -->
+    <div id="detail" class="tab-content active">
+        <div class="long-description">
+            <?php
+            $contentText = htmlspecialchars($tour['long_description']);
+
+            $days = preg_split('/((?:NGÀY|ĐÊM)\s\d+\s\|[^\n]+)/u', $contentText, -1, PREG_SPLIT_DELIM_CAPTURE);
+            $output = '';
+
+            for ($i = 1; $i < count($days); $i += 2) {
+                $title = $days[$i];
+                $content = $days[$i + 1] ?? '';
+
+                $content = preg_replace('/(\d{2}h\d{2}:)/', '<span class="time">$1</span>', $content);
+                $content = preg_replace('/(Sáng|Trưa|Chiều|Tối)/', '<span class="time">$1</span>', $content);
+
+                $content = nl2br($content);
+
+                $id = 'day_' . $i;
+
+                $output .= "
+                <div class='day-block'>
+                    <div class='day-title' onclick=\"toggleDay('$id', this)\">
+                        <span>$title</span>
+                        <span class='arrow'></span>
+                    </div>
+                    <div class='day-content' id='$id'>
+                        $content
+                    </div>
+                </div>
+                ";
+            }
+
+            echo $output;
+            ?>
+        </div>
+    </div>
+
+    <!-- TAB CONTENT: LƯU Ý -->
+    <div id="note" class="tab-content">
+        <div class="note-box">
+            <?php
+$note = htmlspecialchars($tour['note'] ?? '');
+
+// 1. Tách dòng
+$lines = explode("\n", $note);
 
 $output = '';
 
-for ($i = 1; $i < count($days); $i += 2) {
-    $title = $days[$i];
-    $content = $days[$i + 1] ?? '';
+foreach ($lines as $line) {
+    $line = trim($line);
+    if ($line == '') continue;
 
-    // highlight giờ và chữ trưa vs chiều tối (cụm 1)
-    $content = preg_replace('/(\d{2}h\d{2}:)/', '<span class="time">$1</span>', $content);
-    $content = preg_replace('/(Sáng|Trưa|Chiều|Tối)/', '<span class="time">$1</span>', $content);
+    // 2. Nếu là dòng IN HOA (tiêu đề)
+    if (mb_strtoupper($line, 'UTF-8') === $line) {
+        $line = "<div class='note-title'>$line</div>";
+    }
+    // 3. Nếu là nội dung bình thường → bullet
+    else {
+        $line = "<li>$line</li>";
+    }
 
-    // highlight địa điểm (cụm 2)
-    
-    $content = nl2br($content);
-
-    $id = 'day_' . $i;
-
-    $output .= "
-    <div class='day-block'>
-        <div class='day-title' onclick=\"toggleDay('$id', this)\">
-            <span>$title</span>
-            <span class='arrow'></span>
-        </div>
-        <div class='day-content' id='$id'>
-            $content
-        </div>
-    </div>
-    ";
+    $output .= $line;
 }
 
-echo $output;
+// bọc ul cho list
+$output = preg_replace('/(<li>.*<\/li>)/s', '<ul class="note-list">$1</ul>', $output, 1);
+
+echo "<div class='note-box'>$output</div>";
 ?>
         </div>
+    </div>
+
+</div>
         <!-- Phần bình luận -->
         <div class="comments-section">
             <h2>Đánh giá & Bình luận (<?php echo count($comments); ?>)</h2>
@@ -497,13 +650,41 @@ echo $output;
                 input.value = current - 1;
             }
         }
-        
+        document.querySelectorAll(".add-to-cart-form").forEach(form => {
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch("../backend/actions/tour/add_to_cart.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("Đã thêm vào giỏ hàng!");
+            } else {
+                alert("Lỗi khi thêm giỏ!");
+            }
+        })
+        .catch(err => console.error(err));
+    });
+});
+
         fetch("partials/header.php").then(r=>r.text()).then(t=>document.getElementById("header").innerHTML=t);
         fetch("partials/footer.php").then(r=>r.text()).then(t=>document.getElementById("footer").innerHTML=t);
     </script>
     <script src="assets/js/main.js"></script>
     <script src="logo.js"></script>
     <script>
+        function switchTab(id, el) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+}
 function toggleDay(id, el) {
     const content = document.getElementById(id);
 
@@ -521,31 +702,27 @@ function toggleDay(id, el) {
     
     // --- 3. XỬ LÝ GỬI FORM ---
     document.getElementById("commentForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+    e.preventDefault();
 
-        console.log("submit OK");
+    const formData = new FormData(this);
 
-        const formData = new FormData(this);
+    fetch("../backend/actions/tour/add_comment.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Đã lưu comment");
+            location.reload(); // reload trang
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(err => console.log("ERR:", err));
+});
+                        }
 
-        fetch("../backend/actions/tour/add_comment.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log("SERVER:", data);
-
-            if (data.success) {
-                alert("Đã lưu comment");
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(err => console.log("ERR:", err));
-    });
-
-
-}
 </script>
 </body>
 </html>

@@ -1,58 +1,53 @@
 <?php
 session_start();
 require_once '../backend/db.php';
-require_once '../backend/models/order_model.php';
 
-// Lấy dữ liệu
 $user_id = $_SESSION['user_id'] ?? null;
-$message = filter_input(INPUT_GET, 'message', FILTER_SANITIZE_STRING) ?? '';
-$error = filter_input(INPUT_GET, 'error', FILTER_SANITIZE_STRING) ?? '';
+
 $orders = [];
 $order_detail = null;
 
 if ($user_id && isset($conn)) {
-    // Lấy danh sách đơn hàng
-    $sql = "SELECT o.id, o.quantity, o.total_price, o.status, o.order_date, t.id as tour_id, t.title, t.slug
-            FROM orders o
-            JOIN tours t ON o.tour_id = t.id
-            WHERE o.user_id = ?
-            ORDER BY o.order_date DESC";
-    
+
+    // ==========================
+    // LIST ORDER FROM my_orders
+    // ==========================
+    $sql = "SELECT mo.*, t.title, t.slug
+            FROM my_orders mo
+            JOIN tours t ON mo.tour_id = t.id
+            WHERE mo.user_id = ?
+            ORDER BY mo.created_at DESC";
+
     $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        while ($row = $result->fetch_assoc()) {
-            $orders[] = $row;
-        }
-        
-        $stmt->close();
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+
+    $res = $stmt->get_result();
+    while ($row = $res->fetch_assoc()) {
+        $orders[] = $row;
     }
-    
-    // Kiểm tra xem có xem chi tiết đơn hàng không
+
+    $stmt->close();
+
+    // ==========================
+    // DETAIL ORDER
+    // ==========================
     if (isset($_GET['order_id'])) {
-        $order_detail_id = filter_input(INPUT_GET, 'order_id', FILTER_VALIDATE_INT);
-        
-        if ($order_detail_id) {
-            $sql_detail = "SELECT o.id, o.quantity, o.total_price, o.status, o.order_date, t.title
-                          FROM orders o
-                          JOIN tours t ON o.tour_id = t.id
-                          WHERE o.id = ? AND o.user_id = ?";
-            
-            $stmt_detail = $conn->prepare($sql_detail);
-            if ($stmt_detail) {
-                $stmt_detail->bind_param("ii", $order_detail_id, $user_id);
-                $stmt_detail->execute();
-                $result_detail = $stmt_detail->get_result();
-                $order_detail = $result_detail->fetch_assoc();
-                $stmt_detail->close();
-            }
-        }
+
+        $order_id = (int)$_GET['order_id'];
+
+        $sql2 = "SELECT mo.*, t.title
+                 FROM my_orders mo
+                 JOIN tours t ON mo.tour_id = t.id
+                 WHERE mo.id = ? AND mo.user_id = ?";
+
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bind_param("ii", $order_id, $user_id);
+        $stmt2->execute();
+
+        $order_detail = $stmt2->get_result()->fetch_assoc();
+        $stmt2->close();
     }
-    
-    $conn->close();
 }
 ?>
 <!doctype html>
@@ -316,9 +311,9 @@ if ($user_id && isset($conn)) {
                     echo '<tr>
                         <td><strong>#' . htmlspecialchars($order['id']) . '</strong></td>
                         <td><a href="product-detail.php?slug=' . htmlspecialchars($order['slug']) . '" style="color: #007bff; text-decoration: none;">' . htmlspecialchars($order['title']) . '</a></td>
-                        <td>' . htmlspecialchars($order['quantity']) . '</td>
+                        <td>' . htmlspecialchars($order['total_quantity']) . '</td>
                         <td><strong>' . number_format($order['total_price'], 0, ',', '.') . ' VNĐ</strong></td>
-                        <td>' . date('d/m/Y H:i', strtotime($order['order_date'])) . '</td>
+                        <td>' . date('d/m/Y H:i', strtotime($order['created_at'])) . '</td>
                         <td><span class="status-badge status-' . $status_class . '">' . htmlspecialchars($status_text) . '</span></td>
                         <td>
                             <a href="my-orders.php?order_id=' . htmlspecialchars($order['id']) . '" class="btn btn-view" style="text-decoration: none;">Xem chi tiết</a>
@@ -357,7 +352,11 @@ if ($user_id && isset($conn)) {
                 </div>
                 <div class="order-info">
                     <div class="order-info-label">Số lượng:</div>
-                    <div class="order-info-value">' . htmlspecialchars($order_detail['quantity']) . '</div>
+                    <div class="order-info-value">' . htmlspecialchars($order_detail['total_quantity']) . '</div>
+                </div>
+                <div class="order-info">
+                    <div class="order-info-label">Ghi chú:</div>
+                    <div class="order-info-value">' . nl2br(htmlspecialchars($order_detail['note'] ?? 'Không có ghi chú')) . '</div>
                 </div>
                 <div class="order-info">
                     <div class="order-info-label">Tổng tiền:</div>
@@ -368,8 +367,8 @@ if ($user_id && isset($conn)) {
                     <div class="order-info-value"><span class="status-badge status-' . htmlspecialchars($order_detail['status']) . '">' . $status_labels[$order_detail['status']] . '</span></div>
                 </div>
                 <div class="order-info">
-                    <div class="order-info-label">Ngày đặt:</div>
-                    <div class="order-info-value">' . date('d/m/Y H:i', strtotime($order_detail['order_date'])) . '</div>
+                    <div class="order-info-label">Ngày khởi hành:</div>
+                    <div class="order-info-value"> ' . date('d/m/Y', strtotime($order_detail['depart_date'])) . ' </div>
                 </div>
                 <div style="text-align: center; margin-top: 20px;">
                     <a href="my-orders.php" class="btn btn-back" style="display: inline-block; background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none;">Đóng</a>

@@ -18,8 +18,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  
 
 }
 
@@ -28,16 +27,22 @@ body {
   background: var(--bg);
   color: var(--white);
   line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
 
 /* Container chính */
 .container {
   width: 100%;
   max-width: 1400px;
-  min-height: 80%;
+  
   margin: 0 auto;
   padding: 0 20px;
-  flex: 1; /* giúp footer nằm cuối trang */
+   /* giúp footer nằm cuối trang */
+   flex: 1;
+  min-height: 80%;
 }
 
 @media (max-width: 768px) {
@@ -413,4 +418,7 @@ body {
 
 .text-primary {
     color: var(--accent) !important; /* Cam ND Travel */
+}
+.site-footer {
+  position: relative;
 }

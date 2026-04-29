@@ -49,7 +49,10 @@ $stmt->bind_param("iiii", $user_id, $tour_id, $quantity, $total_price);
 if ($stmt->execute()) {
     $stmt->close();
     $conn->close();
-    header("Location: ../../../frontend/cart.php?message=" . urlencode("Đã thêm Tour vào đơn hàng."));
+   echo json_encode([
+        "success" => true,
+        "message" => "Đã thêm vào giỏ"
+    ]);
     exit;
 } else {
     $stmt->close();
