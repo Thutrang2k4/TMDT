@@ -529,14 +529,14 @@ $allowedDays = $tour ? parseAllowedDays($tour['day_start']) : [4];
                     if (data.success) {
                         window.location.href = "my-orders.php";
                     } else {
-                        alert("Lỗi: " + data.msg);
+                        window.location.href = "my-orders.php";
                         btn.innerHTML = "Tôi đã chuyển tiền";
                         btn.disabled = false;
                     }
 
                 })
                 .catch(() => {
-                    alert("Server lỗi");
+                    window.location.href = "my-orders.php";
                     btn.innerHTML = "Tôi đã chuyển tiền";
                     btn.disabled = false;
                 });
