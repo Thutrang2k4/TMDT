@@ -9,7 +9,7 @@ $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT) ?? 1;
 $redirect_url = filter_input(INPUT_POST, 'redirect_url', FILTER_SANITIZE_URL) ?? '../../../frontend/products.php';
 
 // Kiểm tra input
-if ($tour_id === false || $quantity < 1 || $quantity > 99) { 
+if ($tour_id === false || $quantity < 1 || $quantity > 99) {
     header("Location: $redirect_url?error=" . urlencode("Dữ liệu không hợp lệ."));
     exit;
 }
@@ -49,7 +49,7 @@ $stmt->bind_param("iiii", $user_id, $tour_id, $quantity, $total_price);
 if ($stmt->execute()) {
     $stmt->close();
     $conn->close();
-   echo json_encode([
+    echo json_encode([
         "success" => true,
         "message" => "Đã thêm vào giỏ"
     ]);
@@ -60,4 +60,3 @@ if ($stmt->execute()) {
     header("Location: $redirect_url?error=" . urlencode("Lỗi khi thêm đơn hàng."));
     exit;
 }
-?>

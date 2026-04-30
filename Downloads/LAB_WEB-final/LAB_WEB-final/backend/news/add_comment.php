@@ -17,9 +17,12 @@ try {
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
 
     // Validate cơ bản
-    if ($post_id <= 0) throw new Exception("Bài viết không tồn tại.");
-    if ($user_id <= 0) throw new Exception("Bạn cần đăng nhập để bình luận.");
-    if (empty($content)) throw new Exception("Nội dung bình luận không được để trống.");
+    if ($post_id <= 0)
+        throw new Exception("Bài viết không tồn tại.");
+    if ($user_id <= 0)
+        throw new Exception("Bạn cần đăng nhập để bình luận.");
+    if (empty($content))
+        throw new Exception("Nội dung bình luận không được để trống.");
 
     // Gọi model
     $result = add_post_comment($post_id, $user_id, $content, $rating);
@@ -33,4 +36,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
-?>

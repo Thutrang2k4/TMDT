@@ -29,12 +29,12 @@ if (!$user) {
 // Xử lý POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
-    
+
     if ($action === 'update_profile') {
         $full_name = trim($_POST['full_name'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $role_id = filter_input(INPUT_POST, 'role_id', FILTER_VALIDATE_INT);
-        
+
         // Validate
         if (!$full_name || !$email || !$role_id) {
             $error = "Vui lòng nhập đầy đủ thông tin";
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'reset_password') {
         $new_password = $_POST['new_password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
-        
+
         // Validate
         if (!$new_password || strlen($new_password) < 6) {
             $error = "Mật khẩu phải có ít nhất 6 ký tự";
@@ -73,4 +73,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $roles = get_all_roles($conn);
-?>

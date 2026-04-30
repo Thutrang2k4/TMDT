@@ -20,14 +20,14 @@ $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if (!$email || !$password) {
-    echo json_encode(['success'=>false, 'message'=>"Vui lòng nhập đầy đủ email và mật khẩu!"]);
+    echo json_encode(['success' => false, 'message' => "Vui lòng nhập đầy đủ email và mật khẩu!"]);
     exit;
 }
 
 // Prepared statement
 $stmt = $conn->prepare("SELECT id, email, full_name, password_hash, role_id FROM users WHERE email=?");
 if (!$stmt) {
-    echo json_encode(['success'=>false, 'message'=>"Lỗi SQL: ".$conn->error]);
+    echo json_encode(['success' => false, 'message' => "Lỗi SQL: " . $conn->error]);
     exit;
 }
 $stmt->bind_param("s", $email);
@@ -41,17 +41,17 @@ if ($result && $result->num_rows === 1) {
         $_SESSION['email'] = $user['email'];
         $_SESSION['full_name'] = $user['full_name'];
         $_SESSION['role_id'] = $user['role_id'];
-        $_SESSION['role_name'] = ($user['role_id']==1)?'admin':'member';
+        $_SESSION['role_name'] = ($user['role_id'] == 1) ? 'admin' : 'member';
         #Redirect
-        $redirect = ($user['role_id']==1)?'../frontend/admin/dashboard.php':'../frontend/index.php';
-        echo json_encode(['success'=>true, 'redirect'=>$redirect]);
+        $redirect = ($user['role_id'] == 1) ? '../frontend/admin/dashboard.php' : '../frontend/index.php';
+        echo json_encode(['success' => true, 'redirect' => $redirect]);
     } else {
-        echo json_encode(['success'=>false, 'message'=>"Sai email hoặc mật khẩu!"]);
+        echo json_encode(['success' => false, 'message' => "Sai email hoặc mật khẩu!"]);
     }
 } else {
-    echo json_encode(['success'=>false, 'message'=>"Sai email hoặc mật khẩu!"]);
+    echo json_encode(['success' => false, 'message' => "Sai email hoặc mật khẩu!"]);
 }
 
 $stmt->close();
 $conn->close();
-?>
+

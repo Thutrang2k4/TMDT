@@ -49,7 +49,7 @@ if (strlen($full_name) > 100) {
 if (updateUserProfile($user_id, $full_name)) {
     // Cập nhật session
     $_SESSION['full_name'] = $full_name;
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Cập nhật thông tin thành công!'
@@ -60,4 +60,4 @@ if (updateUserProfile($user_id, $full_name)) {
         'message' => 'Có lỗi xảy ra khi cập nhật thông tin!'
     ]);
 }
-?>
+

@@ -37,4 +37,3 @@ if (delete_user($conn, $user_id)) {
     header("Location: ../../frontend/admin/users.php?error=" . urlencode("Lỗi khi xoá người dùng"));
     exit;
 }
-?>

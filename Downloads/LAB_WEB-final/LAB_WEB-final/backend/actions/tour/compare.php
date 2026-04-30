@@ -1,5 +1,6 @@
 <?php
 require_once '../../db.php';
+require_once '../../core/db_helper.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 $ids = $data['tour_ids'] ?? [];
@@ -16,12 +17,17 @@ $sql = "SELECT id, title, short_description, price, duration_days,
         FROM tours
         WHERE id IN ($id_list)";
 
-$result = $conn->query($sql);
+$stmt = db_query($conn, $sql);
 
 $tours = [];
 
-while ($row = $result->fetch_assoc()) {
-    $tours[] = $row;
+if ($stmt) {
+    $result = $stmt->get_result();
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $tours[] = $row;
+        }
+    }
 }
 
 echo json_encode($tours);

@@ -16,42 +16,43 @@ require_once __DIR__ . '/../../models/content_model.php';
 requireAdmin();
 
 // Xử lý upload hình ảnh
-function handleImageUpload($file, $old_image = '') {
+function handleImageUpload($file, $old_image = '')
+{
     if ($file['error'] === UPLOAD_ERR_NO_FILE) {
         return $old_image; // Không có file mới, giữ ảnh cũ
     }
-    
+
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return false;
     }
-    
+
     // Kiểm tra loại file
     $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime_type = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
-    
+
     if (!in_array($mime_type, $allowed_types)) {
         return false;
     }
-    
+
     // Kiểm tra kích thước (max 5MB)
     if ($file['size'] > 5 * 1024 * 1024) {
         return false;
     }
-    
+
     // Tạo tên file unique
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $filename = 'about_' . time() . '_' . uniqid() . '.' . $extension;
     $upload_dir = __DIR__ . '/../../../frontend/assets/images/';
-    
+
     // Tạo thư mục nếu chưa có
     if (!file_exists($upload_dir)) {
         mkdir($upload_dir, 0755, true);
     }
-    
+
     $target_path = $upload_dir . $filename;
-    
+
     if (move_uploaded_file($file['tmp_name'], $target_path)) {
         // Xóa ảnh cũ nếu có
         if (!empty($old_image) && file_exists($upload_dir . basename($old_image))) {
@@ -59,7 +60,7 @@ function handleImageUpload($file, $old_image = '') {
         }
         return 'assets/images/' . $filename;
     }
-    
+
     return false;
 }
 
@@ -67,35 +68,35 @@ function handleImageUpload($file, $old_image = '') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate input
     $errors = array();
-    
+
     $title = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $mission = trim($_POST['mission'] ?? '');
     $vision = trim($_POST['vision'] ?? '');
-    
+
     // Validation
     if (empty($title)) {
         $errors[] = "Tiêu đề không được để trống";
     } elseif (strlen($title) > 255) {
         $errors[] = "Tiêu đề không được vượt quá 255 ký tự";
     }
-    
+
     if (empty($content)) {
         $errors[] = "Nội dung không được để trống";
     }
-    
+
     if (empty($mission)) {
         $errors[] = "Sứ mệnh không được để trống";
     }
-    
+
     if (empty($vision)) {
         $errors[] = "Tầm nhìn không được để trống";
     }
-    
+
     // Xử lý upload ảnh
     $current_content = getAboutContent();
     $image_url = $current_content['image_url'] ?? '';
-    
+
     if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
         $upload_result = handleImageUpload($_FILES['image'], $image_url);
         if ($upload_result === false) {
@@ -104,11 +105,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image_url = $upload_result;
         }
     }
-    
+
     if (empty($errors)) {
         // Lấy user ID từ session
         $user_id = $_SESSION['user_id'] ?? 0;
-        
+
         // Cập nhật database
         if (updateAboutContent($title, $content, $mission, $vision, $image_url, $user_id)) {
             header("Location: ../../../frontend/admin/manage_about.php?success=updated");
@@ -117,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = "Có lỗi xảy ra khi cập nhật. Vui lòng thử lại";
         }
     }
-    
+
     // Có lỗi, redirect về với thông báo
     $_SESSION['about_errors'] = $errors;
     $_SESSION['about_form_data'] = $_POST;
@@ -128,4 +129,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Nếu không phải POST, redirect về trang quản lý
 header("Location: ../../../frontend/admin/manage_about.php");
 exit();
-?>
+

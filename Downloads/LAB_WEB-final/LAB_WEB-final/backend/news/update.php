@@ -20,11 +20,12 @@ if (!$id || empty($title)) {
 $thumbnail = null;
 if (!empty($_FILES["thumbnail"]["name"])) {
     $target_dir = "../../../uploads/news/";
-    if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
+    if (!file_exists($target_dir))
+        mkdir($target_dir, 0777, true);
 
     $extension = strtolower(pathinfo($_FILES["thumbnail"]["name"], PATHINFO_EXTENSION));
     $new_filename = uniqid("news_") . "." . $extension;
-    
+
     if (move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $target_dir . $new_filename)) {
         $thumbnail = $new_filename;
     }
@@ -36,4 +37,3 @@ echo json_encode([
     "success" => $result,
     "message" => $result ? "Cập nhật thành công" : "Cập nhật thất bại"
 ]);
-?>

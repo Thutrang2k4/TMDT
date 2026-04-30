@@ -18,4 +18,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
-?>
+

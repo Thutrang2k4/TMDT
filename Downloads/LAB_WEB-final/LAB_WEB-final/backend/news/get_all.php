@@ -5,7 +5,7 @@ require_once "../models/news_model.php";
 try {
     $search = isset($_GET['search']) ? trim($_GET['search']) : '';
     $news = get_all_news($search);
-    
+
     echo json_encode([
         "success" => true,
         "news" => $news
@@ -16,4 +16,3 @@ try {
         "message" => "Lỗi Server: " . $e->getMessage()
     ]);
 }
-?>

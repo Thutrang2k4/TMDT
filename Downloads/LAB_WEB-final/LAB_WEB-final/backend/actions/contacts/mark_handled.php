@@ -19,4 +19,3 @@ echo json_encode(["success" => $success]);
 $stmt->close();
 $conn->close();
 
-?>

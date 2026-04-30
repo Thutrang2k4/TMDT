@@ -19,4 +19,4 @@ if ($stmt->execute()) {
 }
 
 echo json_encode($response);
-?>
+

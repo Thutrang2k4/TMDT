@@ -34,7 +34,7 @@ try {
     // 6. Trả về kết quả JSON
     if ($result) {
         echo json_encode([
-            "success" => true, 
+            "success" => true,
             "message" => "Đã xóa bình luận thành công."
         ]);
     } else {
@@ -44,8 +44,7 @@ try {
 } catch (Exception $e) {
     // Trả về lỗi dưới dạng JSON để Frontend hiển thị alert
     echo json_encode([
-        "success" => false, 
+        "success" => false,
         "message" => "Lỗi Server: " . $e->getMessage()
     ]);
 }
-?>

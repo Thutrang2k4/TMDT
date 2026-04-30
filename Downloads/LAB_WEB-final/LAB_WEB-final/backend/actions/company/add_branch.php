@@ -3,14 +3,14 @@ header('Content-Type: application/json');
 require_once '../../db.php';
 
 // Nhận dữ liệu
-$region  = isset($_POST['region'])  ? trim($_POST['region'])  : "";
-$name    = isset($_POST['name'])    ? trim($_POST['name'])    : "";
+$region = isset($_POST['region']) ? trim($_POST['region']) : "";
+$name = isset($_POST['name']) ? trim($_POST['name']) : "";
 $address = isset($_POST['address']) ? trim($_POST['address']) : "";
-$phone   = isset($_POST['phone'])   ? trim($_POST['phone'])   : "";
-$email   = isset($_POST['email'])   ? trim($_POST['email'])   : "";
+$phone = isset($_POST['phone']) ? trim($_POST['phone']) : "";
+$email = isset($_POST['email']) ? trim($_POST['email']) : "";
 
 // DANH SÁCH REGION ĐÚNG THEO DATABASE THỰC TẾ
-$valid_regions = ["hcm", "mien-bac", "mien-trung","ng"];
+$valid_regions = ["hcm", "mien-bac", "mien-trung", "ng"];
 
 // Kiểm tra region
 if ($region === "" || !in_array($region, $valid_regions)) {
@@ -51,4 +51,3 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
-?>

@@ -25,7 +25,7 @@ $user = getUserById($user_id);
 if ($user) {
     // Xóa thông tin nhạy cảm
     unset($user['password_hash']);
-    
+
     // Sửa đường dẫn avatar để load được từ frontend
     // Chuyển đường dẫn tuyệt đối thành tương đối
     if ($user['avatar']) {
@@ -35,7 +35,7 @@ if ($user) {
             $user['avatar'] = preg_replace('#^/[^/]+/#', '../', $user['avatar']);
         }
     }
-    
+
     echo json_encode([
         'success' => true,
         'user' => $user
@@ -46,4 +46,4 @@ if ($user) {
         'message' => 'Không tìm thấy thông tin người dùng!'
     ]);
 }
-?>
+

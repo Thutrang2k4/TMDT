@@ -40,7 +40,7 @@ try {
 
     // 6. Trả về JSON an toàn
     $json = json_encode($response, JSON_UNESCAPED_UNICODE);
-    
+
     // Nếu encode thất bại (thường do lỗi tiếng Việt), tự tạo chuỗi JSON lỗi
     if ($json === false) {
         echo '{"success": false, "message": "Lỗi mã hóa JSON (UTF-8): ' . json_last_error_msg() . '"}';
@@ -54,4 +54,3 @@ try {
         "message" => "Lỗi Server: " . $e->getMessage()
     ]);
 }
-?>

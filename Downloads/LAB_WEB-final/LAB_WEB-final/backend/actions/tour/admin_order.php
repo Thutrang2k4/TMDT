@@ -22,17 +22,17 @@ if (!isset($conn)) {
 if ($action === 'update_status') {
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
     $new_status = filter_input(INPUT_POST, 'new_status', FILTER_SANITIZE_STRING);
-    
+
     // Kiểm tra trạng thái hợp lệ
     if (!in_array($new_status, ['pending', 'confirmed', 'cancelled'])) {
         $error = "Trạng thái không hợp lệ.";
         header("Location: $redirect_to?error=" . urlencode($error));
         exit;
     }
-    
+
     if ($order_id && $new_status) {
         $result = update_order_status($conn, $order_id, $new_status);
-        
+
         if ($result) {
             $status_labels = [
                 'pending' => 'Chờ xác nhận',
@@ -58,4 +58,3 @@ if ($message) {
     header("Location: $redirect_to?error=" . urlencode($error));
 }
 exit;
-?>

@@ -100,10 +100,10 @@ if (updateUserAvatar($_SESSION['user_id'], $avatar_path)) {
 } else {
     // Delete uploaded file if database update fails
     @unlink($upload_path);
-    
+
     echo json_encode([
         'success' => false,
         'message' => 'Có lỗi xảy ra khi cập nhật avatar!'
     ]);
 }
-?>
+

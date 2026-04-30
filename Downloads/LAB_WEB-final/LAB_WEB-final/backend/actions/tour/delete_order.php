@@ -47,4 +47,3 @@ if ($result) {
     header("Location: ../../../frontend/cart.php?error=" . urlencode("Lỗi khi xóa đơn hàng."));
     exit;
 }
-?>

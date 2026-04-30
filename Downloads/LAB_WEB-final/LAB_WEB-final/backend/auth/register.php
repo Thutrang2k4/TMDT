@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 // Kết nối DB
 require_once '../db.php';
 if (!isset($conn) || $conn->connect_error) {
-    echo json_encode(['success'=>false, 'message'=>'Lỗi kết nối CSDL']);
+    echo json_encode(['success' => false, 'message' => 'Lỗi kết nối CSDL']);
     exit;
 }
 
@@ -19,7 +19,7 @@ $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if (!$full_name || !$email || !$password) {
-    echo json_encode(['success'=>false, 'message'=>'Vui lòng nhập đầy đủ thông tin!']);
+    echo json_encode(['success' => false, 'message' => 'Vui lòng nhập đầy đủ thông tin!']);
     exit;
 }
 
@@ -29,7 +29,7 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result && $result->num_rows > 0) {
-    echo json_encode(['success'=>false, 'message'=>'Email đã được đăng ký!']);
+    echo json_encode(['success' => false, 'message' => 'Email đã được đăng ký!']);
     $stmt->close();
     exit;
 }
@@ -44,11 +44,11 @@ $role_id = 2; // member
 $stmt->bind_param("sssi", $full_name, $email, $password_hash, $role_id);
 
 if ($stmt->execute()) {
-    echo json_encode(['success'=>true, 'redirect'=>'login.php']);
+    echo json_encode(['success' => true, 'redirect' => 'login.php']);
 } else {
-    echo json_encode(['success'=>false, 'message'=>'Lỗi khi tạo tài khoản: '.$stmt->error]);
+    echo json_encode(['success' => false, 'message' => 'Lỗi khi tạo tài khoản: ' . $stmt->error]);
 }
 
 $stmt->close();
 $conn->close();
-?>
+

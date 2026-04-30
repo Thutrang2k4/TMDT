@@ -1,8 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-// Kết nối DB
 require_once '../../db.php';
+require_once '../../core/db_helper.php';
 
 if ($conn->connect_error) {
     echo json_encode([]);
@@ -13,16 +13,16 @@ $sql = "SELECT id, name, logo, website, email_support
         FROM company 
         ORDER BY id DESC";
 
-$result = $conn->query($sql);
+$stmt = db_query($conn, $sql);
 
 $contacts = [];
 
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $contacts[] = $row;
+if ($stmt) {
+    $result = $stmt->get_result();
+    if ($result && $result->num_rows > 0) {
+        $contacts[] = $result->fetch_assoc();
     }
 }
 
 echo json_encode($contacts);
 $conn->close();
-?>

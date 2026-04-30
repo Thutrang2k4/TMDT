@@ -8,14 +8,14 @@ error_reporting(E_ALL);
 // Kết nối DB
 require_once '../../db.php';
 if (!isset($conn) || $conn->connect_error) {
-    echo json_encode(['success'=>false, 'message'=>'Lỗi kết nối CSDL']);
+    echo json_encode(['success' => false, 'message' => 'Lỗi kết nối CSDL']);
     exit;
 }
 
 // Lấy dữ liệu POST
-$name    = trim($_POST['name'] ?? '');
-$email   = trim($_POST['email'] ?? '');
-$subject   = trim($_POST['subject'] ?? '');
+$name = trim($_POST['name'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$subject = trim($_POST['subject'] ?? '');
 $message = trim($_POST['message'] ?? '');
 
 
@@ -46,10 +46,10 @@ if ($stmt->execute()) {
 } else {
     echo json_encode([
         'success' => false,
-        'message' => 'Lỗi khi lưu liên hệ: '.$stmt->error
+        'message' => 'Lỗi khi lưu liên hệ: ' . $stmt->error
     ]);
 }
 
 $stmt->close();
 $conn->close();
-?>
+

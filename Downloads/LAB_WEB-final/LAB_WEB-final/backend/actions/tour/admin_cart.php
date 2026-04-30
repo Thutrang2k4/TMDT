@@ -26,7 +26,7 @@ if (!isset($conn)) {
 if ($action === 'confirm') {
     // Xác nhận đơn hàng
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
-    
+
     if (!$order_id) {
         $error = "Dữ liệu không hợp lệ.";
     } else {
@@ -40,7 +40,7 @@ if ($action === 'confirm') {
 } elseif ($action === 'cancel') {
     // Hủy đơn hàng
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
-    
+
     if (!$order_id) {
         $error = "Dữ liệu không hợp lệ.";
     } else {
@@ -89,4 +89,3 @@ if (!empty($error)) {
 
 header("Location: $redirect_to");
 exit;
-?>
