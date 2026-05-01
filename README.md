@@ -1,6 +1,33 @@
-# GoTour - Hệ thống đặt tour du lịch trực tuyến
+# 🌴 GoTour - Online Travel Booking System
 
-GoTour là một nền tảng web cho phép khách hàng tìm kiếm, đặt tour du lịch, quản lý đơn hàng, bình luận, đọc tin tức và liên hệ với công ty. Hệ thống cung cấp giao diện quản trị (admin) để quản lý người dùng, tour, đơn hàng, tin tức, câu hỏi thường gặp (FAQ), nội dung giới thiệu, chi nhánh và thông tin liên hệ.
+[![PHP Version](https://img.shields.io/badge/php-%5E8.2-777bb4.svg?style=flat-square&logo=php)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/mysql-8.0-blue.svg?style=flat-square&logo=mysql)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat-square&logo=docker)](https://www.docker.com/)
+[![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=flat-square&logo=bootstrap)](https://getbootstrap.com/)
+
+GoTour là một nền tảng quản lý và đặt tour du lịch trực tuyến toàn diện. Hệ thống cung cấp trải nghiệm mượt mà cho khách hàng tìm kiếm điểm đến và một bộ công cụ quản trị mạnh mẽ để vận hành doanh nghiệp lữ hành.
+
+## Các tính năng chính
+
+### Người dùng (khách & thành viên)
+- Xem danh sách tour, tìm kiếm, lọc.
+- Đặt tour (thêm vào giỏ hàng) – yêu cầu đăng nhập.
+- Quản lý đơn hàng: xem danh sách, chi tiết, hủy đơn (nếu cho phép).
+- Bình luận và đánh giá tour (cần được admin duyệt).
+- Đăng ký, đăng nhập, đổi mật khẩu, cập nhật thông tin cá nhân, upload avatar.
+- Đọc tin tức, bình luận bài viết.
+- Xem FAQ, gửi liên hệ, xem thông tin chi nhánh.
+
+### Quản trị viên (Admin)
+- **Dashboard** – Thống kê nhanh.
+- **Quản lý người dùng** – Xem, sửa, xóa, đặt lại mật khẩu, phân quyền (admin/member).
+- **Quản lý tour** – Thêm, sửa, xóa, tìm kiếm tour.
+- **Quản lý đơn hàng** – Xem danh sách, chi tiết, xác nhận, hủy, xóa đơn, lọc theo trạng thái.
+- **Quản lý tin tức** – Thêm, sửa, xóa bài viết, duyệt/xóa bình luận.
+- **Quản lý liên hệ** – Xem tin nhắn, đánh dấu trạng thái (mới, đang xử lý, đã xử lý), xóa.
+- **Quản lý FAQ** – Thêm, sửa, xóa, bật/tắt hiển thị câu hỏi.
+- **Quản lý trang Giới thiệu** – Cập nhật nội dung, sứ mệnh, tầm nhìn, hình ảnh banner.
+- **Cài đặt hệ thống** – Cập nhật thông tin công ty (tên, logo, website, email), quản lý chi nhánh theo khu vực.
 
 ## Công nghệ sử dụng
 
@@ -86,28 +113,6 @@ GoTour là một nền tảng web cho phép khách hàng tìm kiếm, đặt tou
 ├── Dockerfile
 └── .gitignore
 ```
-
-## Các tính năng chính
-
-### Người dùng (khách & thành viên)
-- Xem danh sách tour, tìm kiếm, lọc.
-- Đặt tour (thêm vào giỏ hàng) – yêu cầu đăng nhập.
-- Quản lý đơn hàng: xem danh sách, chi tiết, hủy đơn (nếu cho phép).
-- Bình luận và đánh giá tour (cần được admin duyệt).
-- Đăng ký, đăng nhập, đổi mật khẩu, cập nhật thông tin cá nhân, upload avatar.
-- Đọc tin tức, bình luận bài viết.
-- Xem FAQ, gửi liên hệ, xem thông tin chi nhánh.
-
-### Quản trị viên (Admin)
-- **Dashboard** – Thống kê nhanh.
-- **Quản lý người dùng** – Xem, sửa, xóa, đặt lại mật khẩu, phân quyền (admin/member).
-- **Quản lý tour** – Thêm, sửa, xóa, tìm kiếm tour.
-- **Quản lý đơn hàng** – Xem danh sách, chi tiết, xác nhận, hủy, xóa đơn, lọc theo trạng thái.
-- **Quản lý tin tức** – Thêm, sửa, xóa bài viết, duyệt/xóa bình luận.
-- **Quản lý liên hệ** – Xem tin nhắn, đánh dấu trạng thái (mới, đang xử lý, đã xử lý), xóa.
-- **Quản lý FAQ** – Thêm, sửa, xóa, bật/tắt hiển thị câu hỏi.
-- **Quản lý trang Giới thiệu** – Cập nhật nội dung, sứ mệnh, tầm nhìn, hình ảnh banner.
-- **Cài đặt hệ thống** – Cập nhật thông tin công ty (tên, logo, website, email), quản lý chi nhánh theo khu vực.
 
 ## Ghi chú phát triển
 
